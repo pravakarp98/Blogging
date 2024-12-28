@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  backend:
+    build: .
+    ports:
+      - 8000:8000
+    env_files: ".env"
+    volumes:
+      - type: bind
+        source: ./app/static
+        target: /app/static
+    depends_on:
+      - postgresql
+
+  postgresql:
+    ports:
+      - 5432:5432
+    images: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_files: ".env"
+
+volumes:
+  postgres_data:
